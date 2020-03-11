@@ -1,11 +1,51 @@
 <template>
    <q-page padding>
-      <h4>Login</h4>
+      <q-card class="auth-tabs">
+         <q-tabs
+            v-model="tab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+         >
+            <q-tab name="login" label="Login" />
+            <q-tab name="register" label="Register" />
+         </q-tabs>
+
+         <q-separator />
+
+         <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="login">
+               <login />
+            </q-tab-panel>
+
+            <q-tab-panel name="register">
+               <register />
+            </q-tab-panel>
+         </q-tab-panels>
+      </q-card>
    </q-page>
 </template>
 
 <script>
-export default {}
+export default {
+   data() {
+      return {
+         tab: "login"
+      }
+   },
+   components: {
+      login: require("components/Auth/Login.vue").default,
+      register: require("components/Auth/Register.vue").default
+   }
+}
 </script>
 
-<style></style>
+<style>
+.auth-tabs {
+   max-width: 500px;
+   margin: 0 auto;
+}
+</style>

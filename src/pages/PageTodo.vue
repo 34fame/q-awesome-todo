@@ -1,75 +1,83 @@
 <template>
    <q-page>
       <div class="q-pa-md absolute full-width full-height column">
-         <div class="row q-mb-lg">
-            <search />
-            <sort />
-         </div>
-
-         <div
-            v-if="
-               !Object.keys(openTasks).length &&
-                  !Object.keys(completedTasks).length &&
-                  search.length
-            "
-         >
-            <no-search-results />
-         </div>
-
-         <q-scroll-area class="q-scroll-area-tasks">
-            <div v-if="!Object.keys(openTasks).length && !search.length">
-               <no-open-tasks />
+         <template v-if="tasksDownloaded">
+            <div class="row q-mb-lg">
+               <search />
+               <sort />
             </div>
 
-            <transition
-               appear
-               enter-active-class="animated zoomIn"
-               leave-active-class="animated zoomOut absolute-top"
+            <div
+               v-if="
+                  !Object.keys(openTasks).length &&
+                     !Object.keys(completedTasks).length &&
+                     search.length
+               "
             >
-               <div v-if="Object.keys(openTasks).length">
-                  <q-banner
-                     class="bg-orange-4 text-center"
-                     v-if="!settings.showTasksInOneList"
-                  >
-                     <span class="text-white text-bold text-subtitle1">
-                        Open Tasks
-                     </span>
-                  </q-banner>
-                  <task-list :tasks="openTasks" />
-               </div>
-            </transition>
+               <no-search-results />
+            </div>
 
-            <transition
-               appear
-               enter-active-class="animated zoomIn"
-               leave-active-class="animated zoomOut"
-            >
-               <div
-                  :class="{ 'q-mt-lg': !settings.showTasksInOneList }"
-                  v-if="Object.keys(completedTasks).length"
+            <q-scroll-area class="q-scroll-area-tasks">
+               <div v-if="!Object.keys(openTasks).length && !search.length">
+                  <no-open-tasks />
+               </div>
+
+               <transition
+                  appear
+                  enter-active-class="animated zoomIn"
+                  leave-active-class="animated zoomOut absolute-top"
                >
-                  <q-banner
-                     class="bg-green-4 text-center"
-                     v-if="!settings.showTasksInOneList"
-                  >
-                     <span class="text-white text-bold text-subtitle1">
-                        Completed Tasks
-                     </span>
-                  </q-banner>
-                  <task-list :tasks="completedTasks" />
-               </div>
-            </transition>
-         </q-scroll-area>
+                  <div v-if="Object.keys(openTasks).length">
+                     <q-banner
+                        class="bg-orange-4 text-center"
+                        v-if="!settings.showTasksInOneList"
+                     >
+                        <span class="text-white text-bold text-subtitle1">
+                           Open Tasks
+                        </span>
+                     </q-banner>
+                     <task-list :tasks="openTasks" />
+                  </div>
+               </transition>
 
-         <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
-            <q-btn
-               class="all-pointer-events"
-               fab
-               color="primary"
-               icon="add"
-               @click="showAddDialog = true"
-            />
-         </div>
+               <transition
+                  appear
+                  enter-active-class="animated zoomIn"
+                  leave-active-class="animated zoomOut"
+               >
+                  <div
+                     :class="{ 'q-mt-lg': !settings.showTasksInOneList }"
+                     v-if="Object.keys(completedTasks).length"
+                  >
+                     <q-banner
+                        class="bg-green-4 text-center"
+                        v-if="!settings.showTasksInOneList"
+                     >
+                        <span class="text-white text-bold text-subtitle1">
+                           Completed Tasks
+                        </span>
+                     </q-banner>
+                     <task-list :tasks="completedTasks" />
+                  </div>
+               </transition>
+            </q-scroll-area>
+
+            <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
+               <q-btn
+                  class="all-pointer-events"
+                  fab
+                  color="primary"
+                  icon="add"
+                  @click="showAddDialog = true"
+               />
+            </div>
+         </template>
+
+         <template v-else>
+            <span class="absolute-center">
+               <q-spinner color="primary" size="3em"
+            /></span>
+         </template>
       </div>
 
       <q-dialog persistent v-model="showAddDialog">
@@ -89,7 +97,7 @@ export default {
    },
    computed: {
       ...mapGetters("tasks", ["completedTasks", "openTasks"]),
-      ...mapState("tasks", ["search"]),
+      ...mapState("tasks", ["search", "tasksDownloaded"]),
       ...mapGetters("settings", ["settings"])
    },
    components: {

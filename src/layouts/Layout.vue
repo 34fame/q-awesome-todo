@@ -5,6 +5,21 @@
             <q-toolbar-title class="absolute-center">
                Awesome Todo
             </q-toolbar-title>
+            <q-space />
+            <q-btn
+               v-if="!authenticated"
+               flat
+               icon-right="account_circle"
+               label="Login"
+               to="/auth"
+            />
+            <q-btn
+               v-if="authenticated"
+               flat
+               icon-right="account_circle"
+               label="Logout"
+               @click="logout"
+            />
          </q-toolbar>
       </q-header>
 
@@ -20,9 +35,10 @@
             />
          </q-tabs>
       </q-footer>
+
       <q-drawer
          v-model="leftDrawerOpen"
-         show-if-above
+         v-if="authenticated"
          bordered
          content-class="bg-primary"
          :breakpoint="767"
@@ -58,6 +74,8 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex"
+
 export default {
    data() {
       return {
@@ -75,6 +93,12 @@ export default {
             }
          ]
       }
+   },
+   computed: {
+      ...mapState("auth", ["authenticated"])
+   },
+   methods: {
+      ...mapActions("auth", ["logout"])
    }
 }
 </script>

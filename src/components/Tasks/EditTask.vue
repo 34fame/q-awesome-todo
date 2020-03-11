@@ -21,10 +21,8 @@
 
 <script>
 import { mapActions } from "vuex"
-import mixinAddEditTask from "src/mixins/mixin-add-edit-task"
 
 export default {
-   mixins: ["mixinAddEditTask"],
    props: ["id", "task"],
    data() {
       return {
@@ -38,6 +36,12 @@ export default {
    },
    methods: {
       ...mapActions("tasks", ["updateTask"]),
+      submitForm() {
+         this.$refs.modalTaskName.$refs.name.validate()
+         if (!this.$refs.modalTaskName.$refs.name.hasError) {
+            this.submitTask()
+         }
+      },
       submitTask() {
          this.updateTask({ id: this.id, updates: this.taskSubmit })
          this.$emit("close")
