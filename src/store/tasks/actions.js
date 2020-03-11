@@ -1,5 +1,6 @@
+import { showErrorMessage } from "src/functions/function-show-error-message"
 import { firebaseAuth, firebaseDb } from "boot/firebase"
-import { uid } from "quasar"
+import { uid, Notify } from "quasar"
 
 export function addTask({ dispatch }, task) {
    let id = uid()
@@ -31,9 +32,18 @@ export function fbReadData({ commit }) {
    // initiated in store/auth/actions
    let userTasks = firebaseDb.ref("tasks/" + firebaseAuth.currentUser.uid)
 
-   userTasks.once("value", snapshot => {
-      commit("setTasksDownloaded", true)
-   })
+   userTasks.once(
+      "value",
+      snapshot => {
+         commit("setTasksDownloaded", true)
+      },
+      err => {
+         if (err) {
+            showErrorMessage(err.message)
+            this.$router.replace("/auth")
+         }
+      }
+   )
 
    userTasks.on("child_added", snapshot => {
       let task = snapshot.val()
@@ -62,19 +72,40 @@ export function fbAddTask({}, payload) {
    let taskRef = firebaseDb.ref(
       "tasks/" + firebaseAuth.currentUser.uid + "/" + payload.id
    )
-   taskRef.set(payload.task)
+   taskRef.set(payload.task, err => {
+      if (err) {
+         showErrorMessage(err.message)
+      } else {
+         Notify.create("Task added!")
+      }
+   })
 }
 
 export function fbUpdateTask({}, payload) {
    let taskRef = firebaseDb.ref(
       "tasks/" + firebaseAuth.currentUser.uid + "/" + payload.id
    )
-   taskRef.update(payload.updates)
+   taskRef.update(payload.updates, err => {
+      if (err) {
+         showErrorMessage(err.message)
+      } else {
+         let keys = Object.keys(payload.updates)
+         if (!(keys.length == 1 && keys.includes("completed"))) {
+            Notify.create("Task updated!")
+         }
+      }
+   })
 }
 
 export function fbDeleteTask({}, id) {
    let taskRef = firebaseDb.ref(
       "tasks/" + firebaseAuth.currentUser.uid + "/" + id
    )
-   taskRef.remove()
+   taskRef.remove(err => {
+      if (err) {
+         showErrorMessage(err.message)
+      } else {
+         Notify.create("Task removed!")
+      }
+   })
 }
