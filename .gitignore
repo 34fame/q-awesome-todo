@@ -35,3 +35,6 @@ yarn-error.log*
 # Sensitive environment variables
 .env.development.local
 .env.production.local
+
+# VS Code settings
+.vscode
