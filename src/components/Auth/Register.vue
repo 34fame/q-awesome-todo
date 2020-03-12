@@ -15,6 +15,7 @@
             label="Email"
             lazy-rules
             outlined
+            type="email"
             v-model="formData.email"
             stack-label
             ref="email"

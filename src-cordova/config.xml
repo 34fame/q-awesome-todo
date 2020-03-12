@@ -64,6 +64,8 @@
         <icon height="172" src="res/ios/icon-86@2x.png" width="172" />
         <icon height="176" src="res/ios/icon-88@2x.png" width="176" />
         <icon height="196" src="res/ios/icon-98@2x.png" width="196" />
+        <preference name="DisallowOverscroll" value="true" />
+        <preference name="KeyboardDisplayRequiresUseAction" value="false" />
         <splash height="768" src="res/screen/ios/screen-ipad-landscape.png" width="1024" />
         <splash height="1536" src="res/screen/ios/screen-ipad-landscape-2x.png" width="2048" />
         <splash height="1024" src="res/screen/ios/screen-ipad-portrait.png" width="768" />

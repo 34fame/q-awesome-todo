@@ -14,6 +14,7 @@
             class="col"
             label="Email"
             outlined
+            type="email"
             v-model="formData.email"
             stack-label
          />
