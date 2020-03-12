@@ -7,14 +7,15 @@ export const menuTemplate = [
    {
       label: "File",
       submenu: [
-         isMac ? { role: "close" } : { role: "quit" },
          {
             label: "Settings",
             click() {
                mainWindow.webContents.send("show-settings")
             },
             accelerator: "CmdOrCtrl+,"
-         }
+         },
+         { type: "separator" },
+         isMac ? { role: "close" } : { role: "quit" }
       ]
    },
    ...(isMac
@@ -23,6 +24,12 @@ export const menuTemplate = [
               label: app.name,
               submenu: [
                  { role: "about" },
+                 { type: "separator" },
+                 { role: "services" },
+                 { type: "separator" },
+                 { role: "hide" },
+                 { role: "hideothers" },
+                 { role: "unhide" },
                  { type: "separator" },
                  { role: "quit" }
               ]
