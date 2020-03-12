@@ -1,7 +1,7 @@
 <template>
    <div class="row q-mb-sm">
       <q-input
-         v-autofocus
+         v-autofocus="{ delayCordova: 700 }"
          class="col"
          clearable
          outlined
