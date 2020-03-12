@@ -142,4 +142,15 @@ export default {
       color: white !important;
    }
 }
+
+.platform-ios {
+   .q-header {
+      padding-top: constant(safe-area-insert-top);
+      padding-top: env(safe-area-inset-top);
+   }
+   .q-footer {
+      padding-bottom: constant(safe-area-insert-bottom);
+      padding-bottom: env(safe-area-inset-bottom);
+   }
+}
 </style>
