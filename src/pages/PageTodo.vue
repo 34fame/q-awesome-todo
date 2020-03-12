@@ -125,4 +125,9 @@ export default {
    display: flex;
    flex-grow: 1;
 }
+.electron {
+   .q-scroll-area-tasks {
+      height: auto !important;
+   }
+}
 </style>
