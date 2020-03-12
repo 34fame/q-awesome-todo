@@ -3,7 +3,7 @@
    "version": "0.0.1",
    "description": "Udemy Course",
    "productName": "Awesome Todo",
-   "cordovaId": "com.34fame.cordova.app",
+   "cordovaId": "org.cordova.quasar.app",
    "capacitorId": "",
    "author": "Troy Moreland <troy@34fame.com>",
    "private": true,
