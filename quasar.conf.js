@@ -90,7 +90,7 @@ module.exports = function(ctx) {
       },
 
       cordova: {
-         id: "com.34fame.cordova.app"
+         id: "com.34fame.awesome-todo"
       },
 
       capacitor: {
